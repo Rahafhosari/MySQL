@@ -1,0 +1,63 @@
+User Friendship
+----------------
+1-Return all users who are friends with Kermit, make sure their names are displayed in results.
+2-Return the count of all friendships
+3-Find out who has the most friends and return the count of their friends.
+4-Create a new user and make them friends with Eli Byers, Kermit The Frog, and Marky Mark
+5-Return the friends of Eli in alphabetical order
+6-Remove Marky Mark from Eli’s friends.
+7-Return all friendships, displaying just the first and last name of both friends
+----------------
+MANY TO MANY
+assuming ther are two tables one for users and one for friends and there's a many to many reationship between both.(friendships relational table between)
+
+Q-Return all users who are friends with Kermit, make sure their names are displayed in results.
+A: Select friends.f_name, friends.l_name from friends, users where users.user_id = friendships.user_id && friendships,friend_id = friends.friend_id && user.f_name = "Hadeel"
+----------------
+SELF JOIN
+Answers for questions above:
+1- select f.id , f.first_name, f.last_name 
+from users, users f  , friendships  fs  
+where  users.id=fs.user_id && f.id=fs.friend_id && users.first_name="Amy";
+-----------------
+2- select count(friendships.id) as "Number of All Friends" from friendships 
+-----------------
+3- select CONCAT(u.first_name," ",u.last_name) as "User Name", COUNT(f.id) as "Number of Friends"
+from users u, users f  , friendships  fs  
+where  u.id=fs.user_id && f.id=fs.friend_id
+ORDER BY "Number of Friends" desc limit 1
+----------------
+4-
+**Create user
+Insert into users (users.id,users.first_name,users.last_name,created_at,updated_at) value (6,"Hadeel","Yassin",NOW(),NOW())
+**Make friendships
+insert into friendships (user_id, friend_id,created_at,updated_at) value (6,2,NOW(),NOW())
+insert into friendships (user_id, friend_id,created_at,updated_at) value (6,4,NOW(),NOW())
+insert into friendships (user_id, friend_id,created_at,updated_at) value (6,5,NOW(),NOW())
+---------------
+5-
+select f.id , f.first_name, f.last_name 
+from users, users f  , friendships  fs  
+where  users.id=fs.user_id && f.id=fs.friend_id && users.first_name="Eli"
+order by first_name
+--------------
+6-
+Delete hadeel from marky's friends
+Delete from friendships where user_id = 5 and friend_id = 6 
+--------------
+7-
+select u.first_name,u.last_name, f.first_name, f.last_name 
+from users u ,users f, friendships fs
+where u.id = fs.user_id && fs.friend_id = f.id
+--------------
+EXTRA
+
+Friends of Hadeel
+Make mark friend with hadeel 
+--> insert into friendships (user_id, friend_id,created_at,updated_at) value (5,6,NOW(),NOW())
+
+select u.first_name from users as u, users as f, friendships as fs
+where u.id = fs.user_id && fs.friend_id = f.id
+&& f.first_name = "Hadeel"
+
+

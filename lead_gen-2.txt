@@ -1,0 +1,82 @@
+Select * from billing;
+SELECT SUM(amount) AS MarchRevenue
+FROM billing
+WHERE charged_datetime like "2012-03%"
+
+
+SELECT SUM(amount) AS MarchRevenue
+FROM billing
+WHERE charged_datetime >= "2012-03-01" and charged_datetime <= "2012-03-31"
+
+********************************************************************************
+
+SELECT SUM(amount) 
+FROM billing
+WHERE  client_id=2
+
+********************************************************************************
+
+SELECT domain_name from sites where client_id=10
+********************************************************************
+SELECT count(site_id), date_format(created_datetime, "%Y") as year , date_format(created_datetime, "%M")
+as month from sites where client_id=1 group by month, year
+*****************************************************************
+select sites.domain_name, count(leads.leads_id ) as total from sites
+Join leads on sites.site_id=leads.site_id
+where leads.registered_datetime between 
+"2011-01-01%" AND "2011-02-15%"
+group by sites.domain_name
+***************************************************************
+select clients.first_name , count(leads.leads_id) from sites
+Join clients on sites.client_id=clients.client_id
+join leads on leads.site_id=sites.site_id
+where leads.registered_datetime between 
+"2011-01-01%" AND "2011-12-31%"
+group by clients.first_name
+***********************************************************
+select clients.first_name , count(leads.leads_id) from sites
+Join clients on sites.client_id=clients.client_id
+join leads on leads.site_id=sites.site_id
+where leads.registered_datetime between 
+"2011-01-01%" AND "2011-06-01%"
+group by clients.first_name
+*********************************************************
+select concat(clients.first_name, ' ', clients.last_name) as name, date_format(registered_datetime, "%M") as month , count(leads.leads_id) from sites
+Join clients on sites.client_id=clients.client_id
+join leads on leads.site_id=sites.site_id
+where leads.registered_datetime between 
+"2011-01-01%" AND "2011-06-01%"
+group by name, month
+******
+select concat(clients.first_name, ' ', clients.last_name) as name, date_format(registered_datetime, "%M") as month , count(leads.leads_id) from sites
+Join clients on sites.client_id=clients.client_id
+join leads on leads.site_id=sites.site_id
+where leads.registered_datetime between 
+"2011-01-01%" AND "2011-06-01%"
+group by leads.leads_id                            ///////////////////////// choose the group by based on more restricted condition, or on the table where there is no repetition in the id or the end of the tree 
+*******************************************************************
+select concat(clients.first_name, ' ', clients.last_name) as name, date_format(registered_datetime, "%M") as month , count(leads.leads_id), sites.domain_name  from sites
+Join clients on sites.client_id=clients.client_id
+join leads on leads.site_id=sites.site_id
+where leads.registered_datetime between 
+"2011-01-01%" AND "2011-12-31%"
+group by sites.site_id
+order by clients.client_id
+*******************************************************************
+SELECT  date_format(billing.charged_datetime, "%Y") as year , date_format(billing.charged_datetime, "%M") as month , concat(clients.first_name, ' ', clients.last_name) as name, SUM(billing.amount) from clients
+join billing on billing.client_id=clients.client_id
+group by month , year , name                        
+order by clients.client_id asc
+********************************************************************
+select clients.client_id , concat(clients.first_name, ' ', clients.last_name) as name, group_concat(
+CONCAT(sites.domain_name)
+SEPARATOR '/') as sites from clients
+left join sites on sites.client_id=clients.client_id
+group by name    //////////////// we needed left join to bring the nul values from the sites table (Copyright Moahmmad XDDDDDDDD)
+*******************************************************************
+Trialllllll
+
+
+
+
+
