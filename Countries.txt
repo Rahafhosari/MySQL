@@ -1,0 +1,32 @@
+1-
+select countries.name, languages.language, languages.percentage from countries 
+join languages on countries.id = languages.country_id 
+where languages.language = "Slovene" 
+order by languages.percentage desc
+
+2-
+select countries.name, COUNT(cities.id) as cititesnum from countries 
+join cities on countries.id = cities.country_id 
+group by cities.country_id 
+order by COUNT(cities.id) desc
+
+3-
+select countries.name, cities.name, cities.population from countries 
+join cities on countries.id = cities.country_id 
+where countries.name = "Mexico" and cities.population >= 500000 
+order by cities.population desc
+
+4- 
+SELECT countries.name, COUNT(languages.id) from countries 
+join languages on countries.id = languages.country_id 
+group by languages.country_id order by COUNT(languages.id) desc
+ 
+5, 6 basic queries
+
+7-
+select countries.name, cities.name, cities.district, cities.population from countries 
+join cities on countries.id = cities.country_id 
+where cities.district = "Buenos Aires" and cities.population >= 500000
+
+8-
+select countries.region, Count(countries.id) as countrynum from countries group by countries.region order by COUNT(countrynum) desc
